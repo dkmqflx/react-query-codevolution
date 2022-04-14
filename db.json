@@ -1,0 +1,27 @@
+{
+  "superheroes": [
+    {
+      "id": 1,
+
+      "name": "Batman",
+
+      "alterEgo": "brue Wayne"
+    },
+
+    {
+      "id": 2,
+
+      "name": "Superman",
+
+      "alterEgo": "Clark Kent"
+    },
+
+    {
+      "id": 3,
+
+      "name": "Wonder Woman",
+
+      "alterEgo": "Princess Diana"
+    }
+  ]
+}
