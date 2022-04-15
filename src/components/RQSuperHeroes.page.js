@@ -6,55 +6,35 @@ const fetchSupserHeroes = () => {
 };
 
 /*
-리액트 쿼리에서는 처음 해당 페이지로 이동하면 로딩 텍스트 보인다 
-하지만 다른 페이지 갔다가 다시 해당 페이지로 와도 로딩텍스트가 보이지 않는다 
-그 이유는 모든 쿼리 결과가 default로 5분 동안 캐시되기 때문이다.
+    default, refetchOnMount: true,
 
-'super-heroes',라는 query key로, 이게 캐시 되었는지 확인한다.
-그리고 캐시되었다면 isLoding 없이 데이터를 return 한다 
+    컴포넌트가 마운트 될 때 마다 데이터를 fetching한다.
+    즉 다른 페이지 이동했다가 다시 해당 페이지로 올 때마다 데이터 fetching한다.
 
-console.log(isLoading); 로 찍어보면, 
-처음이동할 때는 true -> false 지만
-그 다음에 이동할 때는 false가 찍힌다
+    하지만 false로 두면 처음 페이지 방문 이후, 다시 페이지 방문해도 refetch하지 않는다 
 
-하지만 서버에서 받아오는 데이터가 update 되면 다시 fetching해서 데이터를 보여준다 
-console.log(isLoading, isFetching);
-처음에는 true, true -> false, false 가 찍히지만
-데이터가 업데이트 되면, false, true -> false, fasle가 찍힌다.
-그렇기 때문에 로딩 텍스트는 보이지 않고 업데이트된 데이터만 보여주게 된다.
+    always로 값을 두면 query data가 stale이든 아니든 간에 항상 컴포넌트가 마운트 될 때 refetch한다.
+    즉, statleTime이 설정되어 있어도 항상 refetch한다 .
 
+    traditional한 방법, useEffect를 쓴 SupserHeroes 페이지에서, 데이터를 받아온 다음에, 
+    db.json의 데이터를 바꾸어도 바꾼 데이터가 반영되지 않는다
+    그 이유는 컴포넌트가 remote data가 바뀌었는지 알 수 없기 때문이다.
+    새로고침, refresh를 할 때만 데이터가 바뀐다.
 
-const { isLoading, data, isError, error, isFetching } = useQuery('super-heroes', fetchSupserHeroes, {
-  cacheTime: 5000,
-});
-
-이렇게 세번째 argument로 캐쉬 타임을 설정할 수 있다.
-이렇게 하면 5초 뒤 캐쉬된 'super-heroes'가 없어진다
-
-만약 데이터가 자주 바뀌는 것이 아니라면 stale time을 설정해서, fetching이 되는 것을 막을 수 있다.
-다른 페이지로 이동하고 다시 돌아와도 isLoading은 false지만, isFetching은 true이지만, 
-
-cachedTime을 default로 5분, statleTime을 30초으로 설정하면 30초 동안은 다시 데이터를 받아오지 않는다
-
-const { isLoading, data, isError, error, isFetching } = useQuery('super-heroes', fetchSupserHeroes, {
-  staleTime: 30000,
-});
+    하지만 리액트 쿼리를 사용하면 db.json의 데이터를 바꾸면 새로고침을 하지 않아도 바뀐 데이터가 반영되는데 
+    그 이유가 바로 refetchOnWindowFocus 때문이다.
+    default는 true이지만 만약 false로 두게되면 useEffect를 사용했을 때 처럼 데이터가 바뀌어도 반영이 되지 않는다
+    그리고 always로 두면 stale이든 아니든 항상 refetch 한다.
+    즉, statleTime이 설정되어 있고, true 값을 가지만 서버데이터가 바뀌어도 staleTime 동안은 다시 refetch하지 않는데,
+    always로 두면 staleTime이 있어도 항상 refetch한다 .
 
 
-console.log(isLoading, isFetching);
-처음에는 true, true -> false, false 가 찍히고
-그 다음에도 false, false -> false, fasle가 찍힌다.
-
-devtool에서는 fresh flag가 30초 활성화 되는 것을 확인할 수 있다
-30초가 지나면 fresh flag 대신 stale flag가 활성화 된다
-그 다음 다시 다른 페이지 갔다가 해당 페이지 이동하면 다시 isFetching이 true가 되고 데이터를 다시 받아오게 된다
-
-default staleTime은 0
 
  */
 
 export const RQSuperHeroesPage = () => {
   const { isLoading, data, isError, error, isFetching } = useQuery('super-heroes', fetchSupserHeroes, {
+    refetchOnWindowFocus: 'always',
     staleTime: 30000,
   });
   console.log(isLoading, isFetching);
