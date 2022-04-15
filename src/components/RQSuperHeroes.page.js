@@ -6,27 +6,20 @@ const fetchSupserHeroes = () => {
 };
 
 /*
-   Polling : refers to the process of fetching data at regular intervals
-   예를 들어 실시간 주가를 보여준다고 할 때, ui는 항상 remote data와 sync되어 있어야 한다.
-   리액트 쿼리에서는 refetchInterval속성으로 이것을 설정할 수 있다. default:false 지만
-   milliseond로 설정하면 해당 시간마다 데이터를 계소개서 refetch한다 
-   예를들어, refetchInterval: 5000로 설정하면 5초마다 데이터를 받아온다.
-
-   polling이나 automatic refetching은 window loses일 때 멈추게 된다.
-   하지만 refetchIntervalInBackground를 true로 주면 윈도우에 포커스가 없어도 refetch하기 때문에 
-   따라서 refetchInterval과 refetchIntervalInBackground 속성을 통해서 더 나은 사용자 경험을 제공할 수 있다
-
-
+  다시 마운트가 되지 않더라도 유저가 하는 이벤트를 통해서 데이터를 다시 fetch할 수 있다.
+  enabled: false, 속성을 통해 데이터가 fetch되는 것을 막을 수 있다.
+  그리고 useQuery의 refetch를 사용해서 이벤트가 발생할 때 마다 refetch할 수 있도록 한다.
+  그리고 처음에는 isLoading이 true지만 다시데이터를 눌를 때는 캐시되기 때문에 isLoading이 false가 된다.
+  즉, iseFetching만 true -> false로 바뀐다.
 
  */
 
 export const RQSuperHeroesPage = () => {
-  const { isLoading, data, isError, error, isFetching } = useQuery('super-heroes', fetchSupserHeroes, {
-    refetchInterval: 5000,
-    refetchIntervalInBackground: true,
+  const { isLoading, data, isError, error, isFetching, refetch } = useQuery('super-heroes', fetchSupserHeroes, {
+    enabled: false,
   });
   console.log(isLoading, isFetching);
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return <h2>Loading...</h2>;
   }
 
@@ -37,7 +30,8 @@ export const RQSuperHeroesPage = () => {
   return (
     <>
       <h2>React Query Super Heroes Page</h2>
-      {data.data.map((hero) => {
+      <button onClick={refetch}>Fech Heroes</button>
+      {data?.data.map((hero) => {
         return <div key={hero.name}>{hero.name}</div>;
       })}
     </>
