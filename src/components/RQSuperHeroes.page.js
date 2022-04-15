@@ -25,7 +25,7 @@ export const RQSuperHeroesPage = () => {
 
   console.log({ isLoading, isFetching });
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <h2>Loading...</h2>;
   }
 
