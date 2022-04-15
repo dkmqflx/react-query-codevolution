@@ -28,13 +28,35 @@ const { isLoading, data, isError, error, isFetching } = useQuery('super-heroes',
   cacheTime: 5000,
 });
 
-  이렇게 세번째 argument로 캐쉬 타임을 설정할 수 있다.
-  이렇게 하면 5초 뒤 캐쉬된 'super-heroes'가 없어진다
+이렇게 세번째 argument로 캐쉬 타임을 설정할 수 있다.
+이렇게 하면 5초 뒤 캐쉬된 'super-heroes'가 없어진다
+
+만약 데이터가 자주 바뀌는 것이 아니라면 stale time을 설정해서, fetching이 되는 것을 막을 수 있다.
+다른 페이지로 이동하고 다시 돌아와도 isLoading은 false지만, isFetching은 true이지만, 
+
+cachedTime을 default로 5분, statleTime을 30초으로 설정하면 30초 동안은 다시 데이터를 받아오지 않는다
+
+const { isLoading, data, isError, error, isFetching } = useQuery('super-heroes', fetchSupserHeroes, {
+  staleTime: 30000,
+});
+
+
+console.log(isLoading, isFetching);
+처음에는 true, true -> false, false 가 찍히고
+그 다음에도 false, false -> false, fasle가 찍힌다.
+
+devtool에서는 fresh flag가 30초 활성화 되는 것을 확인할 수 있다
+30초가 지나면 fresh flag 대신 stale flag가 활성화 된다
+그 다음 다시 다른 페이지 갔다가 해당 페이지 이동하면 다시 isFetching이 true가 되고 데이터를 다시 받아오게 된다
+
+default staleTime은 0
 
  */
 
 export const RQSuperHeroesPage = () => {
-  const { isLoading, data, isError, error, isFetching } = useQuery('super-heroes', fetchSupserHeroes);
+  const { isLoading, data, isError, error, isFetching } = useQuery('super-heroes', fetchSupserHeroes, {
+    staleTime: 30000,
+  });
   console.log(isLoading, isFetching);
   if (isLoading) {
     return <h2>Loading...</h2>;
