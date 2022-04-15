@@ -2,26 +2,48 @@
   "superheroes": [
     {
       "id": 1,
-
       "name": "Batman",
-
       "alterEgo": "brue Wayne"
     },
-
     {
       "id": 2,
-
       "name": "Superman",
-
       "alterEgo": "Clark Kent"
     },
-
     {
       "id": 3,
-
       "name": "Wonder Woman1",
-
       "alterEgo": "Princess Diana"
+    },
+    {
+      "name": "new hero",
+      "alterEgo": "",
+      "id": 4
+    },
+    {
+      "name": "sdsf",
+      "alterEgo": "sdfsdfa",
+      "id": 5
+    },
+    {
+      "name": "`12",
+      "alterEgo": "1212`12",
+      "id": 6
+    },
+    {
+      "name": "3213",
+      "alterEgo": "123123",
+      "id": 7
+    },
+    {
+      "name": "1231",
+      "alterEgo": "3123123",
+      "id": 8
+    },
+    {
+      "name": "2",
+      "alterEgo": "322",
+      "id": 9
     }
   ],
   "friends": [
@@ -47,7 +69,11 @@
   "channels": [
     {
       "id": "codevolution",
-      "courses": ["react", "vue", "angular"]
+      "courses": [
+        "react",
+        "vue",
+        "angular"
+      ]
     }
   ],
   "colors": [

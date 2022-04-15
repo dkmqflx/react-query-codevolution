@@ -52,7 +52,7 @@ function App() {
               <DynamicParallelPage heroIds={[1, 3]} />
             </Route>
 
-            <Route path="/rq-super-hero/:heroId">
+            <Route path="/rq-super-heroes/:heroId">
               <RQSuperHeroPage></RQSuperHeroPage>
             </Route>
             <Route path="/super-heroes">
