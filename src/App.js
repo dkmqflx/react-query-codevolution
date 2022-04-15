@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { HomePage } from './components/Home.page';
 import { RQSuperHeroesPage } from './components/RQSuperHeroes.page';
 import { SuperHeroesPage } from './components/SuperHeroes.page';
@@ -33,6 +34,7 @@ function App() {
           </Switch>
         </div>
       </Router>
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right"></ReactQueryDevtools>
     </QueryClientProvider>
   );
 }
