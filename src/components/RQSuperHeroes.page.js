@@ -2,11 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSuperHeroesData, useAddSuperHeroData } from '../hooks/useSuperHeroesData';
 
-/*
-같은 쿼리가 다른 컴포넌트에서 사용될 수 있는데 이러한 상황을 custom query hook을 사용해서 해결할 수 있다.
-
- */
-
 export const RQSuperHeroesPage = () => {
   const [name, setName] = useState('');
   const [alterEgo, setAlterEgo] = useState('');
