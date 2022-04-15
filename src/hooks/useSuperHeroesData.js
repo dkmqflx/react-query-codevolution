@@ -24,15 +24,24 @@ export const useAddSuperHeroData = () => {
   const queryClient = useQueryClient();
 
   return useMutation(addSuperHero, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('super-heroes');
-      // Add hero 버튼을 누르면 다시 Refetchig 한다
-      // 즉, invalidating the query 하므로 react query 가 다시 refetch 하나느 것,
+    onSuccess: (data) => {
+      // data는 post request의 response
+      // queryClient.invalidateQueries('super-heroes');
+
+      queryClient.setQueryData('super-heroes', (oldQueryData) => {
+        // console.log('oldQueryData', oldQueryData); //  dev tools에서 Data Explorer에 해당하는 것
+
+        return {
+          ...oldQueryData,
+          data: [...oldQueryData.data, data.data],
+        };
+      });
     },
   });
 };
 
 /*
-이전 방법으로는 데이터를 post 요청한 다음 다시 refetch 해야 했지만
-이 방법으로  post 요청이 성공한 후 다시 데이터를 자동으로 불러올수록 할 수 있다.
+이전방법으로는 post 후 invalidate해서 다시 데이터를 get 요청으로 불러오지만 이렇게 하지말고 
+post 요청 후 받은 데이터를 바로 기존에 존재하던 데이터에서 새롭게 업데이트할 수 있다.
+즉 다시 isFetching이 true가 되지 않고 다시 get 요청을 하지 않는다.
 */
