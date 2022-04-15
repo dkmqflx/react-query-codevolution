@@ -1,13 +1,7 @@
-import { useQuery } from 'react-query';
-import axios from 'axios';
-
-const fetchSupserHeroes = () => {
-  return axios.get('http://localhost:4000/superheroes');
-};
+import { useSuperHeroesData } from '../hooks/useSuperHeroesData';
 
 /*
-select를 사용해서 data transformation할 수 있다
-select는 api data를 argument로 받는 함수
+같은 쿼리가 다른 컴포넌트에서 사용될 수 있는데 이러한 상황을 custom query hook을 사용해서 해결할 수 있다.
 
  */
 
@@ -20,14 +14,8 @@ export const RQSuperHeroesPage = () => {
     console.log('Perform side deffect after encountering error', error);
   };
 
-  const { isLoading, data, isError, error, isFetching, refetch } = useQuery('super-heroes', fetchSupserHeroes, {
-    onSuccess: onSuccess,
-    onError: onError,
-    select: (data) => {
-      const superHeroNames = data.data.map((hero) => hero.name);
-      return superHeroNames;
-    },
-  });
+  const { isLoading, data, isError, error, isFetching, refetch } = useSuperHeroesData(onSuccess, onError);
+
   console.log({ isLoading, isFetching });
   if (isLoading || isFetching) {
     return <h2>Loading...</h2>;
