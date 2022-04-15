@@ -6,8 +6,8 @@ const fetchSupserHeroes = () => {
 };
 
 /*
-data fetching을 다루면서 side effect 발생하고 싶을 때 있다.
-예를들어 모달창을 연다던가, 다른 라우트로 이동하거나 toast notification을 보여주는 것.
+select를 사용해서 data transformation할 수 있다
+select는 api data를 argument로 받는 함수
 
  */
 
@@ -23,6 +23,10 @@ export const RQSuperHeroesPage = () => {
   const { isLoading, data, isError, error, isFetching, refetch } = useQuery('super-heroes', fetchSupserHeroes, {
     onSuccess: onSuccess,
     onError: onError,
+    select: (data) => {
+      const superHeroNames = data.data.map((hero) => hero.name);
+      return superHeroNames;
+    },
   });
   console.log({ isLoading, isFetching });
   if (isLoading || isFetching) {
@@ -37,8 +41,11 @@ export const RQSuperHeroesPage = () => {
     <>
       <h2>React Query Super Heroes Page</h2>
       <button onClick={refetch}>Fech Heroes</button>
-      {data?.data.map((hero) => {
+      {/* {data?.data.map((hero) => {
         return <div key={hero.name}>{hero.name}</div>;
+      })} */}
+      {data.map((heroName) => {
+        return <div key={heroName}>{heroName}</div>;
       })}
     </>
   );
