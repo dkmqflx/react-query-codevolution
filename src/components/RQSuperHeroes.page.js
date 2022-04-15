@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useSuperHeroesData } from '../hooks/useSuperHeroesData';
 
 /*
@@ -7,11 +8,11 @@ import { useSuperHeroesData } from '../hooks/useSuperHeroesData';
 
 export const RQSuperHeroesPage = () => {
   const onSuccess = (data) => {
-    console.log('Perform side deffect after data fetching', data);
+    // console.log('Perform side deffect after data fetching', data);
   };
 
   const onError = (error) => {
-    console.log('Perform side deffect after encountering error', error);
+    // console.log('Perform side deffect after encountering error', error);
   };
 
   const { isLoading, data, isError, error, isFetching, refetch } = useSuperHeroesData(onSuccess, onError);
@@ -29,12 +30,16 @@ export const RQSuperHeroesPage = () => {
     <>
       <h2>React Query Super Heroes Page</h2>
       <button onClick={refetch}>Fech Heroes</button>
-      {/* {data?.data.map((hero) => {
-        return <div key={hero.name}>{hero.name}</div>;
-      })} */}
-      {data.map((heroName) => {
-        return <div key={heroName}>{heroName}</div>;
+      {data?.data.map((hero) => {
+        return (
+          <div key={hero.id}>
+            <Link to={`/rq-super-hero/${hero.id}`}>{hero.name}</Link>
+          </div>
+        );
       })}
+      {/* {data.map((heroName) => {
+        return <div key={heroName}>{heroName}</div>;
+      })} */}
     </>
   );
 };
