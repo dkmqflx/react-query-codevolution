@@ -26,3 +26,7 @@
   - Challenging when you have to deal with caching, deducing multiple requests for the same data, updating stale data in the background, performance optimizations etc
 
 -> react query is solution !
+
+----
+## Reference
+- [React Query Tutorial - Codevolution](https://www.youtube.com/watch?v=VtWkSCZX0Ec&list=PLC3y8-rFHvwjTELCrPrcZlo6blLBUspd2)
