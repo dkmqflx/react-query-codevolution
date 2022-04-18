@@ -19,7 +19,7 @@
   - Persisted in your app memory and accessing or updating it is synchronous
 
 - Server state
-  - Persisted remotely and requires asynchronous APIs for f etching or updating
+  - Persisted remotely and requires asynchronous APIs for fetching or updating
   - Has shared ownership
   - Data can be updated by someone else without your knowledge
   - UI data may not be in sync with the remote data
